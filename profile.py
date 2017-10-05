@@ -4,92 +4,58 @@ from post import Post, Author
 import csv
 import os
 
-"""
-- Update bio (Done)
-- create post (Done)
-- display posts (Done)
-- call method to create page (Done)
-- set photo
-- create friends
-- display friends
-"""
-
 def create_post(content, firstname="Anonymous"):
+    '''User can create a post'''
     p = Post(firstname, content)
     p.save()
     print('Post created')
 
 def display_posts(firstname):
+    '''This displays users posts'''
     d = Post(firstname)
     d.show_all_posts(firstname)
 
-def bio(firstname):
-    file_exist = os.path.isfile('posts.csv')
-    with open('posts.csv', 'a') as my_file:
-        fieldnames = ['bio']
-        writer = csv.DictWriter(my_file, fieldnames=fieldnames)
-
-        if not file_exist:
-            writer.writeheader()
-        writer.writerow({'bio': firstname})
-
-
-    with open('user.csv', 'r') as file:
-        # nw_user = input('Supply username: ')
-        reader = csv.DictReader(file)
-        for pr in reader:
-            if pr['firstname'] == firstname:
-                choice = input(
-                    ' a to update first name\n b to update last name \n c to update bio d. update date of birth\n e to update password').lower()
-                if choice == 'a':
-                    new_firstname = input('Supply new first name: ')
-                    pr['first name'] = new_firstname
-                    print("--- Your First Name is now " + str(pr['first name']))
-                elif choice == 'b':
-                    new_lastname = input('Supply new last name: ')
-                    pr['last name'] = new_lastname
-                    print("--- Your Last Name is now " + str(pr['last name']))
-                elif choice == 'c':
-                    new_bio = input('Supply new bio: ')
-                    pr['bio'] = new_bio
-                    print("Bio updated successfully")
-                elif choice == 'd':
-                    new_dob = input('Supply new date of birth: ')
-                    pr['date_of_birth'] = new_dob
-                    print("--- Your Date-of-Birth is now " + str(pr['last name']))
-                elif choice == 'e':
-                    new_password = input('Supply new password: ')
-                    pr['password'] = new_password
-                    print('Password changed successfully')
-            else:
-                print('That username does not exist in our record ')
-
-    pass
+def update_bio(bio_details, firstname='charles'):
+    '''User can update their bio'''
+    mybio = open('user.csv', 'r')
+    read_user = csv.DictReader(mybio)
+    for line in read_user:
+        if line['firstname'] == firstname:
+            line['bio'] = bio_details
+            print('Success')
 
 def create_pg():
+    '''User can create a facebook page'''
     # fb_page.create_page()
     pass
 
 
 if __name__ == '__main__':
 
-    # This creates the posts
-    content = str(input('Enter post: '))
-    create_post(content)
-
-    #This displays the post based on the user's first name
+    # This displays the users post. This function is called first in this class
     display_posts('charles')
 
-    #This update bio
+    #We are asking the user what they want to do
+    quit = True
+    while quit:
+        choice = input(" 1. to Create Post\n 2. to Update Bio\n 3. to Create a Page\n 4. to logout")
+        if choice == '1':
+            # This lets user creates a posts
+            content = str(input('Enter post: '))
+            create_post(content)
 
-    # author = Author('Ehi Aig')
-    # arthur.show_all_posts(arthur.email)
+        elif choice=='2':
+            # This let's the user update bio
+            bio_details = input("What\'s your fun facts?: ")
+            update_bio(bio_details)
 
-    # new_user = User()
+        elif choice == '3':
+            #This lets user create page
+            create_pg()
 
-    # new_post = Post(new_user.firstname, 'It\'s a good day')
-    # new_post.save()
-    # author = new_user.firstname
+        elif choice == '4':
+            #This logs the user out of the application
+            quit = False
 
 
 
