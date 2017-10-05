@@ -17,6 +17,9 @@ class Newfeed:
                 print("{}. {} posted: {}".format(index, name, post))
             self.show_post_detail()
 
+    def post_liked(self):
+        print("Post liked")
+
     def show_post_detail(self):
         post_index = int(input("Enter index: "))
 
@@ -25,15 +28,16 @@ class Newfeed:
             for post_obj in reader:
                 if post_index == int(post_obj['index']):
                     print(post_obj['post'])
+                return post_obj['post']
 
         post_action = int(input("Enter 1 to like posts and 2 to comment: "))
 
         if post_action == 1:
-            print("Post liked")
+            self.post_liked()
         elif post_action == 2:
             comment = input("Enter comment: ")
             print("Your comment has been posted")
 
     
 if __name__ == '__main__':
-    new_feed = Newfeed()
+    new_feed = Newfeed()-
